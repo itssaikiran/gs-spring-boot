@@ -4,14 +4,18 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                // Run Maven to clean and package the application
-                sh './mvnw clean package'
+                // Navigate to the complete/ directory and run Maven
+                dir('complete') {
+                    sh './mvnw clean package'
+                }
             }
         }
         stage('Deploy') {
             steps {
-                // Copy the JAR file to the Apache directory (update as needed)
-                sh 'sudo cp target/*.jar /var/www/html/app.jar'
+                // Copy the JAR file to the deployment location
+                dir('complete') {
+                    sh 'sudo cp target/*.jar /var/www/html/app.jar'
+                }
             }
         }
     }
